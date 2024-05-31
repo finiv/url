@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UrlResource;
 use App\Services\Url\QueryService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UrlController extends Controller
@@ -14,10 +16,15 @@ class UrlController extends Controller
     {
         $request->validate([
             'url' => 'required|url'
-        ]);
+        ]); // or could be in form request
 
         return response()->json(
-            ['url' => $this->service->getUrl($request->get('url'))]
+            ['url' => UrlResource::make($this->service->shortUrl($request->get('url')))]
         );
+    }
+
+    public function redirect($any): RedirectResponse
+    {
+        return redirect($this->service->getUrl($any));
     }
 }

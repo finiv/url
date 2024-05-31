@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::post('/shortUrl', [UrlController::class, 'shortUrl'])->name('shortUrl');
+Route::get('/{any}', [UrlController::class, 'redirect'])->name('redirect')->where('any', '.*');;

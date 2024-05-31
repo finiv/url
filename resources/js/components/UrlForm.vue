@@ -9,6 +9,7 @@ export default {
             originalUrl: '',
             shortUrl: '',
             error: '',
+            currentUrl: window.location.href
         }
     },
     methods: {
@@ -19,6 +20,9 @@ export default {
                         .then(response => {
                             this.shortUrl = response.data.url.short_url;
                             this.originalUrl = response.data.url.original_url;
+                        })
+                        .catch(error => {
+                            this.error = 'Failed to shorten the URL. Please try again.';
                         });
                 } catch (error) {
                     this.error = 'Failed to shorten the URL. Please try again.';
@@ -35,11 +39,11 @@ export default {
     <div>
         <form class="col-5 m-5" @submit.prevent="shortenUrl">
             <div class="form-group d-flex mb-5">
-                <label for="originalUrl">Enter URL to shorten:  https://google.com</label>
+                <label for="originalUrl">Enter URL to shorten:</label>
                 <input class="form-control" type="text" id="originalUrl" v-model="originalUrl" required placeholder="Type in your url">
             </div>
             <div v-if="shortUrl">
-                <p>Shortened URL: <a :href="originalUrl" target="_blank">{{ shortUrl }}</a></p>
+                <p>Shortened URL: <a :href="originalUrl" target="_blank">{{ this.currentUrl + this.shortUrl }}</a></p>
             </div>
             <div v-if="error">
                 <p>{{ error }}</p>

@@ -14,8 +14,14 @@ return new class extends Migration
         Schema::create('urls', function (Blueprint $table) {
             $table->id();
             $table->string('original_url');
-            $table->string('short_url');
+            $table->string('hash')->nullable();
+            $table->string('scheme');
+            $table->string('host');
+            $table->string('route_ending')->nullable();
             $table->timestamps();
+
+            $table->index('original_url');
+            $table->unique('hash');
         });
     }
 
