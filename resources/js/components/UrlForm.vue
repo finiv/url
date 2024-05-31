@@ -16,7 +16,10 @@ export default {
         shortenUrl() {
             if (isUrl(this.originalUrl)) {
                 try {
-                    const response = axios.post(window.routes.shortUrl, { url: this.originalUrl })
+                    const url = this.originalUrl.slice(-1) === '/'
+                        ? this.originalUrl.substring(0, this.originalUrl.length - 1)
+                        : this.originalUrl
+                    const response = axios.post(window.routes.shortUrl, { url: url })
                         .then(response => {
                             this.shortUrl = response.data.url.short_url;
                             this.originalUrl = response.data.url.original_url;
@@ -25,6 +28,7 @@ export default {
                             this.error = 'Failed to shorten the URL. Please try again.';
                         });
                 } catch (error) {
+                    console.log(error)
                     this.error = 'Failed to shorten the URL. Please try again.';
                 }
             } else {
