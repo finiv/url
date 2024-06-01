@@ -18,8 +18,7 @@ class UrlHelper
             'host' => $parsedUrl['host'],
             'ending' => '/' . self::extractEnding($parsedUrl),
             'path' => self::extractPath($parsedUrl),
-            'scheme' => $parsedUrl['scheme'] . '://' ?? 'https://',
-            'qwe' => $parsedUrl['qwe'] ?? 'popop',
+            'scheme' => $parsedUrl['scheme'] . '://',
         ];
     }
 

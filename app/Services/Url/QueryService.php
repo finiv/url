@@ -15,7 +15,6 @@ class QueryService
 
         return app(CommandService::class)->createUrl($url);
     }
-
     public function getUrl(string $url): string
     {
         $urlParts = UrlHelper::getUrlParts($url);
