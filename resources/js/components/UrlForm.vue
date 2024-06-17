@@ -14,7 +14,7 @@ export default {
     },
     methods: {
         shortenUrl() {
-            if (isUrl(this.originalUrl)) {
+            if (isUrl(this.originalUrl.replaceAll(' ',''))) {
                 try {
                     const url = this.originalUrl.slice(-1) === '/'
                         ? this.originalUrl.substring(0, this.originalUrl.length - 1)
@@ -23,12 +23,17 @@ export default {
                         .then(response => {
                             this.shortUrl = response.data.url.short_url;
                             this.originalUrl = response.data.url.original_url;
+                            this.error = null;
                         })
                         .catch(error => {
-                            this.error = 'Failed to shorten the URL. Please try again.';
+                            this.shortUrl = null;
+                            if (error.response && error.response.data && error.response.data.error) {
+                                this.error = error.response.data.error;
+                            } else {
+                                this.error = 'Failed to shorten the URL. Please try again.';
+                            }
                         });
                 } catch (error) {
-                    console.log(error)
                     this.error = 'Failed to shorten the URL. Please try again.';
                 }
             } else {
